@@ -43,3 +43,4 @@ next-env.d.ts
 # private: pitch strategy, named prospects, employer references
 INTERNAL-NOTES.md
 NDA-one-page.md
+.vercel

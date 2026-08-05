@@ -20,8 +20,14 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const expectedUser = process.env.DEMO_USER;
-  const expectedPass = process.env.DEMO_PASSWORD;
+  // .trim() matters more than it looks. Setting these from a shell pipe, a
+  // pasted dashboard field, or a .env file very easily leaves a trailing
+  // newline or space on the value — and then the comparison below silently
+  // never matches, so the browser just re-prompts forever with no error to
+  // explain why. Trim the EXPECTED values only; never trim what the user
+  // typed, since a password is allowed to contain spaces.
+  const expectedUser = process.env.DEMO_USER?.trim();
+  const expectedPass = process.env.DEMO_PASSWORD?.trim();
 
   // Gate is OFF unless both are set. Local development stays frictionless —
   // you only set these in Vercel, so `npm run dev` never prompts you.
