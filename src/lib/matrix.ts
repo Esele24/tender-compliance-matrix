@@ -14,6 +14,7 @@
  */
 
 import type { CompanyProfile } from "./company";
+import { readEnvAscii } from "./env";
 
 export type Status = "MET" | "PARTIAL" | "GAP";
 
@@ -126,13 +127,10 @@ export async function buildMatrix(
   tenderText: string,
   company: CompanyProfile,
 ): Promise<MatrixResult> {
-  // Strip anything that isn't printable ASCII before using the key as a header.
-  // API keys are plain ASCII, but the value arrives from a file or a dashboard
-  // field and very easily picks up a BOM (U+FEFF) or a trailing newline. HTTP
-  // headers are Latin-1 only, so a stray BOM throws "Cannot convert argument to
-  // a ByteString ... value 65279" — an error that says nothing about the real
-  // cause and sends you hunting through the request body instead.
-  const key = process.env.GEMINI_API_KEY?.replace(/[^\x20-\x7E]/g, "").trim();
+  // readEnvAscii, not process.env directly — see src/lib/env.ts. The key goes
+  // into an HTTP header, which is Latin-1 only, so an invisible BOM on the
+  // value throws a ByteString error that names neither the key nor the header.
+  const key = readEnvAscii("GEMINI_API_KEY");
   if (!key) {
     throw new Error(
       "GEMINI_API_KEY is not set. Add it to .env.local in the project root.",
@@ -143,7 +141,9 @@ export async function buildMatrix(
   // literally 0 on gemini-2.0-flash (verified 2026-08-03), while 2.5-flash
   // serves fine. 2.5 is also the better fit — tenders are long and the matrix
   // needs careful reading rather than fast paraphrasing.
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  // Also sanitised: this goes into the URL path, and a BOM here produces
+  // "unexpected model name format" from Gemini rather than anything useful.
+  const model = readEnvAscii("GEMINI_MODEL") ?? "gemini-2.5-flash";
   const url =
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 

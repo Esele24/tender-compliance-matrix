@@ -13,6 +13,7 @@
  */
 
 import type { CompanyProfile, Evidence } from "./company";
+import { readEnvAscii } from "./env";
 
 const PROFILE_SCHEMA = {
   type: "object",
@@ -98,9 +99,11 @@ export async function profileFromUrl(rawUrl: string): Promise<CompanyProfile> {
     );
   }
 
-  const key = process.env.GEMINI_API_KEY;
+  // Same sanitising as matrix.ts — the key becomes a header and the model
+  // becomes part of the URL, so neither tolerates an invisible BOM.
+  const key = readEnvAscii("GEMINI_API_KEY");
   if (!key) throw new Error("GEMINI_API_KEY is not set.");
-  const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+  const model = readEnvAscii("GEMINI_MODEL") ?? "gemini-2.5-flash";
 
   const prompt = `Below is the text of a company's public website. Extract a factual evidence profile that could be used to check the company against a tender's requirements.
 
