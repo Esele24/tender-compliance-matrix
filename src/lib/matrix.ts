@@ -126,7 +126,13 @@ export async function buildMatrix(
   tenderText: string,
   company: CompanyProfile,
 ): Promise<MatrixResult> {
-  const key = process.env.GEMINI_API_KEY;
+  // Strip anything that isn't printable ASCII before using the key as a header.
+  // API keys are plain ASCII, but the value arrives from a file or a dashboard
+  // field and very easily picks up a BOM (U+FEFF) or a trailing newline. HTTP
+  // headers are Latin-1 only, so a stray BOM throws "Cannot convert argument to
+  // a ByteString ... value 65279" — an error that says nothing about the real
+  // cause and sends you hunting through the request body instead.
+  const key = process.env.GEMINI_API_KEY?.replace(/[^\x20-\x7E]/g, "").trim();
   if (!key) {
     throw new Error(
       "GEMINI_API_KEY is not set. Add it to .env.local in the project root.",
