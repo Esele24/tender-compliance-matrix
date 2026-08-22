@@ -1,0 +1,436 @@
+{
+  "requirements": [
+    {
+      "requirement": "To be eligible for this tender exercise, interested contractors are required to be pre-qualified as essential service vendor in the NJQS Product Code 3.04.20 – Slickline Services Category A, B, C, D & U in NipeX Joint Qualification System (NJQS) data base.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "PARTIAL",
+      "evidence": "Registered and live on the NipeX Joint Qualification System under Product Code 3.04.20 Slickline Services, Categories A, B and C.",
+      "evidenceSource": "[Corporate — NipeX NJQS registration]",
+      "note": "Company is registered for Categories A, B, and C, but not for D and U as required."
+    },
+    {
+      "requirement": "NUPRC certificate as evidence for verification and necessary update.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Holds a valid NUPRC general purpose permit covering well intervention and slickline services, renewed annually.",
+      "evidenceSource": "[Corporate — NUPRC permit]",
+      "note": ""
+    },
+    {
+      "requirement": "To be eligible, all tenders must comply with the Nigerian Content Requirements in the NipeX system.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Registered with the Nigerian Content Development and Monitoring Board; NOGIC JQS certificate current, expires 31 December 2026.",
+      "evidenceSource": "[Corporate — NCDMB]",
+      "note": ""
+    },
+    {
+      "requirement": "Tenderers are to note that they will be requested during the technical tender to give full details of their relevant strategy to ensure that they fully comply with the Nigerian Oil & Gas Industry Content Development (NOGICD) Act, 2010 as non- compliance will constitute a FATAL FLAW in all tender evaluations.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to develop and submit a detailed Nigerian Content strategy plan."
+    },
+    {
+      "requirement": "Tenderer shall demonstrate that entity is a Nigerian registered company.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Incorporated in Nigeria with the Corporate Affairs Commission, RC 1094882, since 2011.",
+      "evidenceSource": "[Corporate — CAC registration]",
+      "note": ""
+    },
+    {
+      "requirement": "Tenderer shall demonstrate that entity is a Nigerian registered company with greater than 51% Nigerian shareholding.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "100% Nigerian shareholding, held by three Nigerian individuals.",
+      "evidenceSource": "[Corporate — shareholding]",
+      "note": ""
+    },
+    {
+      "requirement": "Submit certified true copies of CAC forms 10, 02 & 07 (or its equivalent; CAC 2.3, 2.4, 2.5, etc.) including company memorandum & article of association and/or evidence of entity’s incorporation, shareholding & ownership structure in Nigeria.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Certified true copies of CAC forms 10, 02 and 07 on file, together with the memorandum and articles of association. Ownership and shareholding structure filed with the Corporate Affairs Commission.",
+      "evidenceSource": "[Corporate — CAC registration][Corporate — shareholding]",
+      "note": ""
+    },
+    {
+      "requirement": "Tenderer shall provide evidence of registration with the NCDMB NOGIC JQS.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Registered with the Nigerian Content Development and Monitoring Board; NOGIC JQS certificate current, expires 31 December 2026.",
+      "evidenceSource": "[Corporate — NCDMB]",
+      "note": ""
+    },
+    {
+      "requirement": "Tenderer shall provide evidence of registration with the NUPRC.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Holds a valid NUPRC general purpose permit covering well intervention and slickline services, renewed annually.",
+      "evidenceSource": "[Corporate — NUPRC permit]",
+      "note": ""
+    },
+    {
+      "requirement": "Provide evidence of what percentage of your key management positions is held by Nigerians.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Eight of the nine key management positions are held by Nigerians.",
+      "evidenceSource": "[Personnel — Nigerian workforce]",
+      "note": ""
+    },
+    {
+      "requirement": "Provide evidence of what percentage of the total work force are Nigerians.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "97% of the total workforce are Nigerian nationals.",
+      "evidenceSource": "[Personnel — Nigerian workforce]",
+      "note": ""
+    },
+    {
+      "requirement": "Show overall percentage of work to be performed in Nigeria and those by Nigerian resources relative to total work volume.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide a plan showing the overall percentage of work to be performed in Nigeria and by Nigerian resources for this specific project."
+    },
+    {
+      "requirement": "Provide a Nigerian Content Execution Plan providing a detailed description of the role, work scope, man-hours and responsibilities of all Nigerian companies and personnel that will be involved in executing the work. Also provide details of Nigerian content focal point or manager.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to develop and submit a project-specific Nigerian Content Execution Plan, including details of a Nigerian content focal point or manager."
+    },
+    {
+      "requirement": "Submit corporate or project/contract specific organograms.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide corporate or project-specific organograms."
+    },
+    {
+      "requirement": "Provide evidence of NCEC category SS (Services & Support) NCEC to demonstrate ownership of Slickline services equipment.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of NCEC category SS (Services & Support) NCEC."
+    },
+    {
+      "requirement": "Tenderer shall provide Location of in-country facilities (not limited to administrative office) to execute the work scope.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "MET",
+      "evidence": "Operates a workshop, tool store and redress facility at Trans-Amadi, Port Harcourt, Rivers State, with in-house machining capability for downhole spares.",
+      "evidenceSource": "[Facilities — in-country base]",
+      "note": ""
+    },
+    {
+      "requirement": "Tenderer shall comply with the latest approved version of NCDMB HCD guideline by committing (via a letter of undertaking) to providing Project-Specific training, man-hour, budget, skill development and understudy plan for Nigerian personnel utilizing OGTAN registered trainer(s) or other approved NCDMB training institution(s).",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide a letter of undertaking committing to a Project-Specific training, man-hour, budget, skill development and understudy plan for Nigerian personnel as per NCDMB HCD guideline."
+    },
+    {
+      "requirement": "Only tenderers who are live in the NJQS Product Code 3.04.20 Slickline Services Category A, B, C, D & U as at 16:00 hrs on the 30th of April 2026, being the advert closing date shall be invited to participate in the tender.",
+      "category": "Corporate / legal",
+      "mandatory": true,
+      "status": "PARTIAL",
+      "evidence": "Registered and live on the NipeX Joint Qualification System under Product Code 3.04.20 Slickline Services, Categories A, B and C.",
+      "evidenceSource": "[Corporate — NipeX NJQS registration]",
+      "note": "Company is registered for Categories A, B, and C, but not for D and U as required by the closing date."
+    },
+    {
+      "requirement": "All respondents to RENAISSANCE must ensure full compliance with the Nigerian Oil and Gas Industry Content Development Act, 2010. (NOGICD) All respondents should educate themselves on the requirements of the NOGICD and ensure full compliance. Non-Compliance is a FATAL FLAW.",
+      "category": "Local content",
+      "mandatory": true,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide a general statement or commitment to full compliance with the Nigerian Oil and Gas Industry Content Development Act, 2010."
+    },
+    {
+      "requirement": "Capability to provide Electronic BHP/BHT surveys.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Electronic BHP/BHT survey programme and wax cutting across 22 land wells for a marginal field operator in Delta State, 2022.",
+      "evidenceSource": "[Experience — project reference 2]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Electronic Downhole Tools shut in tools operations.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with Electronic Downhole Tools shut in tools operations."
+    },
+    {
+      "requirement": "Capability to provide SCSSV changeouts.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Slickline campaign covering 46 well interventions for an indigenous E&P operator in OML 18, 2023-2024 — including SCSSV changeouts, gas lift valve changeouts and plug setting and pulling.",
+      "evidenceSource": "[Experience — project reference 1]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Wax cutting.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Electronic BHP/BHT survey programme and wax cutting across 22 land wells for a marginal field operator in Delta State, 2022.",
+      "evidenceSource": "[Experience — project reference 2]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Gas lift valves changeouts.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Slickline campaign covering 46 well interventions for an indigenous E&P operator in OML 18, 2023-2024 — including SCSSV changeouts, gas lift valve changeouts and plug setting and pulling.",
+      "evidenceSource": "[Experience — project reference 1]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Zone changes.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with Zone changes."
+    },
+    {
+      "requirement": "Capability to provide Plugs setting and pulling.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Slickline campaign covering 46 well interventions for an indigenous E&P operator in OML 18, 2023-2024 — including SCSSV changeouts, gas lift valve changeouts and plug setting and pulling.",
+      "evidenceSource": "[Experience — project reference 1]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Leak investigations TRSSV lockouts.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with Leak investigations TRSSV lockouts."
+    },
+    {
+      "requirement": "Capability to provide Sand Bailing and Kinley Calliper Services.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Maintains a downhole tool string inventory covering gauge cutters, bailers, Kinley callipers, and standard fishing tools for 2-3/8 in to 4-1/2 in completions.",
+      "evidenceSource": "[Equipment — downhole tool inventory]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Fishing services.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Maintains a downhole tool string inventory covering gauge cutters, bailers, Kinley callipers, and standard fishing tools for 2-3/8 in to 4-1/2 in completions.",
+      "evidenceSource": "[Equipment — downhole tool inventory]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability to provide Servicing of Sub Surface Flow Contract Equipment.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with Servicing of Sub Surface Flow Contract Equipment."
+    },
+    {
+      "requirement": "Capability to provide Securing and un-securing services.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with securing and un-securing operations."
+    },
+    {
+      "requirement": "Capability to provide Upfront Slickline operations – drift run, HUD investigation etc.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with upfront slickline operations such as drift run and HUD investigation."
+    },
+    {
+      "requirement": "Capability to provide High Pressure High Temperature (HPHT) services.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with High Pressure High Temperature (HPHT) services."
+    },
+    {
+      "requirement": "Capability to provide Specialized and emerging Slickline service.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of capability or experience with specialized and emerging slickline services."
+    },
+    {
+      "requirement": "Capability for Module 1 – Land (incl. truck mounted slickline units and skid units/power packs).",
+      "category": "Equipment",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Owns four truck-mounted slickline units and two skid-mounted slickline units with dedicated power packs. All units are owned outright, not hired, and are based in Nigeria. Electronic BHP/BHT survey programme and wax cutting across 22 land wells for a marginal field operator in Delta State, 2022.",
+      "evidenceSource": "[Equipment — slickline units][Experience — project reference 2]",
+      "note": ""
+    },
+    {
+      "requirement": "Capability for Module 2 – Swamp (incl. of barges and skid unit/power packs).",
+      "category": "Equipment",
+      "mandatory": false,
+      "status": "PARTIAL",
+      "evidence": "Owns ... two skid-mounted slickline units with dedicated power packs.",
+      "evidenceSource": "[Equipment — slickline units]",
+      "note": "Company owns skid units/power packs but needs to provide evidence of capability or equipment for swamp operations, including barges."
+    },
+    {
+      "requirement": "Capability for Module 3 – Big Bore Equipment.",
+      "category": "Equipment",
+      "mandatory": false,
+      "status": "GAP",
+      "evidence": "",
+      "evidenceSource": "",
+      "note": "Company needs to provide evidence of owning or having access to Big Bore Equipment."
+    },
+    {
+      "requirement": "Capability for Module 4 – High Pressure, High Temperature (HPHT) (up to 20,000psi).",
+      "category": "Equipment",
+      "mandatory": false,
+      "status": "PARTIAL",
+      "evidence": "Slickline units and pressure control equipment are rated to 10,000 psi working pressure, certified and recertified annually by an independent third party.",
+      "evidenceSource": "[Equipment — pressure rating]",
+      "note": "Company's equipment is rated to 10,000 psi, but the requirement is for up to 20,000 psi HPHT."
+    },
+    {
+      "requirement": "Capability for Module 5 – Down Hole Spares (all spares, machining & workshop services).",
+      "category": "Equipment",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Operates a workshop, tool store and redress facility at Trans-Amadi, Port Harcourt, Rivers State, with in-house machining capability for downhole spares. Maintains a downhole tool string inventory covering gauge cutters, bailers, Kinley callipers, and standard fishing tools for 2-3/8 in to 4-1/2 in completions.",
+      "evidenceSource": "[Facilities — in-country base][Equipment — downhole tool inventory]",
+      "note": ""
+    },
+    {
+      "requirement": "ISO 9001:2015 certification for quality management.",
+      "category": "Technical",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "ISO 9001:2015 certified for quality management.",
+      "evidenceSource": "[Quality — ISO certification]",
+      "note": ""
+    },
+    {
+      "requirement": "ISO 45001:2018 certification for occupational health and safety.",
+      "category": "HSE",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "ISO 45001:2018 certified for occupational health and safety.",
+      "evidenceSource": "[Quality — ISO certification]",
+      "note": ""
+    },
+    {
+      "requirement": "Demonstrate a good HSE safety record.",
+      "category": "HSE",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "2,180,000 man-hours worked without Lost Time Injury as at June 2026. LTIF 0.00 over the last three years. HSE policy signed by the Managing Director and reviewed annually.",
+      "evidenceSource": "[HSE — safety record]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of skilled manpower (Operations Manager).",
+      "category": "Personnel",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Operations Manager holds a B.Eng Mechanical Engineering with 18 years well intervention experience and COREN registration.",
+      "evidenceSource": "[Personnel — key staff]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of skilled manpower (Slickline operators well control certification).",
+      "category": "Personnel",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Six slickline operators hold current well control certification.",
+      "evidenceSource": "[Personnel — key staff]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of skilled manpower (Field personnel BOSIET and HUET certification).",
+      "category": "Personnel",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "All field personnel hold current BOSIET and HUET certification.",
+      "evidenceSource": "[HSE — training]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of skilled manpower (NEBOSH IGC certification).",
+      "category": "Personnel",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Twelve staff hold NEBOSH IGC.",
+      "evidenceSource": "[HSE — training]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of financial stability (audited turnover).",
+      "category": "Financial",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Audited turnover of N1.42 billion in FY2025 and N1.08 billion in FY2024. Audited accounts available for the last three financial years.",
+      "evidenceSource": "[Financial — turnover]",
+      "note": ""
+    },
+    {
+      "requirement": "Evidence of financial stability (banking reference).",
+      "category": "Financial",
+      "mandatory": false,
+      "status": "MET",
+      "evidence": "Banks with a tier-1 Nigerian commercial bank; reference letter available on request.",
+      "evidenceSource": "[Financial — banking]",
+      "note": ""
+    }
+  ]
+}

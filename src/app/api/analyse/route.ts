@@ -5,7 +5,11 @@ import { buildMatrix } from "@/lib/matrix";
 // Tenders are long and the model call is slow; don't let the platform cut it off.
 export const maxDuration = 60;
 
-/** A profile built from a URL arrives whole rather than by id. */
+/**
+ * A profile that isn't bundled arrives whole rather than by id — built from a
+ * website, built from uploaded documents, or restored from the browser's own
+ * storage. The server has no copy of any of those, so it must be sent.
+ */
 function asProfile(value: unknown): CompanyProfile | null {
   if (!value || typeof value !== "object") return null;
   const p = value as Partial<CompanyProfile>;
@@ -15,7 +19,9 @@ function asProfile(value: unknown): CompanyProfile | null {
   );
   if (evidence.length === 0) return null;
   return {
-    id: "from-url",
+    // Keep the caller's id where it sent one — it distinguishes a
+    // document-built profile from a scraped one in logs and in the report.
+    id: typeof p.id === "string" && p.id ? p.id : "from-url",
     name: p.name,
     caution: typeof p.caution === "string" ? p.caution : "",
     evidence,
