@@ -170,6 +170,9 @@ export async function buildMatrix(
   }
 
   const data = await res.json();
+  if (data?.candidates?.[0]?.finishReason !== "STOP") {
+    throw new Error("Gemini did not finish the matrix. No partial result was returned; split the tender and try each section.");
+  }
   const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (typeof text !== "string") {
     throw new Error(
@@ -187,9 +190,20 @@ export async function buildMatrix(
     throw new Error("Gemini response did not contain a requirements array.");
   }
 
-  // Belt and braces: the schema permits a non-empty evidence string on a GAP.
-  // Strip it, so a GAP row can never display something that looks like proof.
+  // Verify the quote against the named profile entry. The model's status is a
+  // judgment, but an unsupported quote must never be presented as proof.
   for (const r of parsed.requirements) {
+    const quote = typeof r.evidence === "string" ? r.evidence.trim() : "";
+    const source = typeof r.evidenceSource === "string" ? r.evidenceSource.trim().replace(/^\[|\]$/g, "") : "";
+    if (r.status !== "GAP") {
+      const matches = company.evidence.some(
+        (entry) => entry.source === source && quote.length > 0 && entry.content.includes(quote),
+      );
+      if (!matches) {
+        r.status = "GAP";
+        r.note = "The model's evidence quote could not be verified against the named profile entry. Review the source document manually.";
+      }
+    }
     if (r.status === "GAP") {
       r.evidence = "";
       r.evidenceSource = "";

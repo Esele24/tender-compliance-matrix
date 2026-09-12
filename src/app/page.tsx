@@ -333,8 +333,12 @@ export default function Home() {
   const blockers = reqs.filter((r) => r.status === "GAP" && r.mandatory).length;
   const shown = filter === "ALL" ? reqs : reqs.filter((r) => r.status === filter);
 
-  function copyCsv() {
-    const esc = (s: string) => `"${(s ?? "").replace(/"/g, '""')}"`;
+  function matrixCsv() {
+    // A tender can contain spreadsheet formula prefixes. Keep imported CSV inert.
+    const esc = (s: string) => {
+      const safe = /^[\s]*[=+\-@]/.test(s ?? "") ? `'${s}` : (s ?? "");
+      return `"${safe.replace(/"/g, '""')}"`;
+    };
     const csv = [
       "Requirement,Category,Mandatory,Status,Evidence,Source,Note",
       ...reqs.map((r) =>
@@ -349,10 +353,26 @@ export default function Home() {
         ].join(","),
       ),
     ].join("\n");
-    navigator.clipboard.writeText(csv).then(() => {
+    return csv;
+  }
+
+  function copyCsv() {
+    navigator.clipboard.writeText(matrixCsv()).then(() => {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      setError("Clipboard access failed. Use Download CSV instead.");
     });
+  }
+
+  function downloadCsv() {
+    const blob = new Blob(["\uFEFF", matrixCsv()], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "tender-compliance-matrix.csv";
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   const canRun =
@@ -736,6 +756,12 @@ export default function Home() {
                 className="border border-rule-strong px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] transition-colors hover:border-accent hover:text-accent"
               >
                 {copied ? "✓ Copied" : "Copy as CSV"}
+              </button>
+              <button
+                onClick={downloadCsv}
+                className="border border-rule-strong px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] transition-colors hover:border-accent hover:text-accent"
+              >
+                Download CSV
               </button>
             </div>
 

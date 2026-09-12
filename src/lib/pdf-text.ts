@@ -72,7 +72,14 @@ export async function pdfToText(bytes: Uint8Array): Promise<PdfExtraction> {
   const numPages = doc.numPages;
   await task.destroy();
 
-  const text = pages.join("\n\n").slice(0, MAX_CHARS);
+  const text = pages.join("\n\n");
+
+  // A partial tender must never produce a matrix that looks complete.
+  if (text.length > MAX_CHARS) {
+    throw new Error(
+      `This PDF has ${text.length.toLocaleString()} extracted characters, above the ${MAX_CHARS.toLocaleString()} character analysis limit. Split it into sections; this tool cannot verify the whole tender in one run.`,
+    );
+  }
 
   if (text.trim().length < 100) {
     throw new Error(

@@ -1,8 +1,8 @@
 # Tender Compliance Matrix
 
-**Paste in an oil & gas invitation to tender. Get back every requirement it
-contains, each checked against a company's actual evidence, with anything
-unproven flagged as a GAP.**
+**Paste in an oil & gas invitation to tender. Get an AI-generated requirement
+checklist against a supplied company profile. Review it against the original
+tender before using it in a bid.**
 
 Nigerian oil servicing companies lose tenders on paperwork, not capability — a
 missing certificate, an expired registration, a local-content clause nobody
@@ -15,7 +15,7 @@ types.
 
 ## What it does
 
-1. **Extracts** every requirement — qualification criteria, documents,
+1. **Attempts to extract** requirements — qualification criteria, documents,
    certifications, financial thresholds, HSE, personnel, equipment, local
    content — quoting the tender's own wording so you can find it in the original.
 2. **Classifies** each by category, and marks it mandatory when the tender uses
@@ -30,17 +30,34 @@ types.
 ## The rule the whole thing is built around: it never invents evidence
 
 A hallucinated certificate number inside a submitted bid could get a company
-disqualified or blacklisted. So *"we found no evidence for this"* is a feature,
-and it's enforced three separate times:
+disqualified or blacklisted. So *"we found no evidence for this"* is a feature.
 
 | Layer | What it does |
 |---|---|
 | **Prompt** | The model may only quote the supplied profile — no general knowledge, no assumptions about what a company like this probably has. |
-| **Schema** | `temperature: 0` plus Gemini's strict `responseSchema`, so this is extraction rather than writing. The same tender produces the same matrix twice. |
-| **Post-parse strip** | After parsing, any row with `status === "GAP"` has `evidence` and `evidenceSource` blanked — so even if the model ignored both instructions, a GAP row can never render something that looks like proof. |
+| **Schema** | `temperature: 0` plus Gemini's structured JSON response schema. This improves consistency but does not guarantee identical or complete results. |
+| **Post-parse checks** | A MET/PARTIAL quote must occur in the named profile entry or the row becomes a GAP for manual review. GAP rows always have evidence cleared. |
 
-The third layer exists because the first two are *requests* and the third is a
-*guarantee*.
+These checks verify quoted profile evidence, not whether the model found every
+requirement or correctly judged that the evidence satisfies it.
+
+## Current capabilities and limits
+
+| Question | Current answer |
+|---|---|
+| AI-powered extraction? | Yes. Gemini reads tender text and generates the requirement matrix. The worked example is precomputed. |
+| Arbitrary PDFs? | Text-based PDFs up to 25 MB can be uploaded. Scans need OCR first. Password-protected PDFs are rejected. |
+| 100-page tenders? | Page count alone is not the limit. PDF extraction and Gemini may time out; text above 200,000 characters is rejected rather than silently truncated. Split long tenders and reconcile the sections manually. |
+| Extraction accuracy? | Not measured on a labelled tender set. The tool cannot claim it finds every requirement. Check the matrix against the source tender. |
+| How is MET decided? | Gemini judges whether profile evidence satisfies the wording. Code verifies that its quote appears in the named profile entry; it does not independently verify validity, expiry, or legal sufficiency. |
+| Company evidence and real profiles? | Users can build profiles from a website or up to eight text-based PDF documents. Saved profiles live in that browser's localStorage, not a database. |
+| Arbitrary websites? | It fetches the homepage and a few conventional paths. JavaScript-rendered, blocked, unusual, or missing pages may yield an incomplete profile. |
+| Ambiguous information? | Gemini may mark it PARTIAL or GAP, but this is not guaranteed. A person must resolve ambiguous clauses and evidence. |
+| Accounts and multiple employees? | No individual accounts. An optional shared HTTP Basic Auth password gates the demo. Profiles do not sync or support collaboration. |
+| Persistence? | Saved company profiles persist in one browser until its local data is cleared. Tenders and matrices are not saved. |
+| AI/API costs? | Live analyses and profile builds call Gemini under the operator's API key and may incur usage charges or quota limits. The precomputed example does not call Gemini. |
+| CSV export? | The matrix can be copied as CSV or downloaded as a `.csv` file. |
+| Confidential documents? | Uploaded text is sent to this app's server and then to Google's Gemini API. The demo password and browser storage do not provide a complete enterprise security model. Get the company's approval and assess hosting, access, retention, and provider terms before using confidential material. |
 
 ## Building a profile from a company website
 

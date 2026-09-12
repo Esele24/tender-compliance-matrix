@@ -44,6 +44,12 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  if (tenderText.length > 200_000) {
+    return NextResponse.json(
+      { error: "Tender text exceeds the 200,000-character analysis limit. Split it into sections so no requirements are silently omitted." },
+      { status: 400 },
+    );
+  }
 
   const company =
     asProfile(profile) ??
