@@ -39,6 +39,7 @@ export async function pdfToText(bytes: Uint8Array): Promise<PdfExtraction> {
   } catch (err) {
     await task.destroy();
     const message = err instanceof Error ? err.message : "";
+    console.error("[pdf-open]", err);
     if (/password/i.test(message)) {
       throw new Error(
         "That PDF is password-protected. Remove the password and try again.",
