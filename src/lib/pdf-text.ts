@@ -22,6 +22,8 @@ export type PdfExtraction = {
 };
 
 export async function pdfToText(bytes: Uint8Array): Promise<PdfExtraction> {
+  // Ensure the server bundle includes the DOMMatrix polyfill used by pdfjs.
+  await import("@napi-rs/canvas");
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
 
   // No worker and no remote font fetches — this runs on the server.
