@@ -44,3 +44,9 @@ next-env.d.ts
 INTERNAL-NOTES.md
 NDA-one-page.md
 .vercel
+
+# Safe configuration template and local verification artifacts
+!.env.example
+security-login-check.png
+playwright-report/
+test-results/

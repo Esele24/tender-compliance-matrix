@@ -1,4 +1,6 @@
 {
+  // TypeScript checks .ts/.tsx for mistakes without generating JavaScript (noEmit).
+  // Next.js handles the build. strict enables stronger checks; paths maps @/ to src/.
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],

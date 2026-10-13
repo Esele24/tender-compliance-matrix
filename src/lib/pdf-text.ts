@@ -1,94 +1,60 @@
 /**
- * Pull the text layer out of a PDF, server-side.
- *
- * Tenders arrive as PDFs, not as pasted text, so the demo stalls at exactly the
- * point a prospect wants to try their own document. This reads the text pdfjs
- * already has; it is NOT OCR. A scanned or photographed tender has no text
- * layer and must fail loudly rather than hand the model an empty string and
- * produce a confident matrix built on nothing.
- *
- * pdfjs is loaded lazily and from the legacy build: the legacy build is the one
- * that runs under Node without a browser worker, and deferring the import keeps
- * it out of the cold-start path for every other route.
+ * Server-side boundary around PDF parsing. Reject oversized/non-PDF bytes first, then
+ * run scripts/pdf-worker.cjs with a time limit and JavaScript heap limits. Every completion
+ * path terminates the worker; callers receive extracted text or a safe rejection message.
  */
-
-const MAX_CHARS = 200_000;
-
-type TextItem = { str?: string; hasEOL?: boolean };
-
-export type PdfExtraction = {
-  text: string;
-  pages: number;
-};
-
+import { Worker } from "node:worker_threads";
+import { join } from "node:path";
+import { SecurityError } from "./security/errors";
+export type PdfExtraction = { text: string; pages: number };
+// A worker thread runs parsing separately from the main server thread, so a
+// difficult PDF cannot keep normal request handling busy indefinitely. workerData
+// passes bytes in; worker message events deliver the result back. A Promise connects
+// these events to await: resolve completes successfully; reject sends failure to catch.
+// This extracts embedded text, not scanned handwriting/images; there is no OCR step.
 export async function pdfToText(bytes: Uint8Array): Promise<PdfExtraction> {
-  // Ensure the server bundle includes the DOMMatrix polyfill used by pdfjs.
-  await import("@napi-rs/canvas");
-  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-
-  // No worker and no remote font fetches — this runs on the server.
-  const task = pdfjs.getDocument({
-    data: bytes,
-    useWorkerFetch: false,
-    useSystemFonts: false,
+  if (
+    bytes.byteLength > 3 * 1024 * 1024 ||
+    Buffer.from(bytes.subarray(0, 5)).toString() !== "%PDF-"
+  )
+    throw new SecurityError(
+      400,
+      "invalid_pdf",
+      "Upload a PDF within the 3 MB total upload limit.",
+    );
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(join(process.cwd(), "scripts/pdf-worker.cjs"), {
+      // Keep binary data nested: bundlers may merge metadata into workerData.
+      workerData: { bytes },
+      resourceLimits: {
+        maxOldGenerationSizeMb: 128,
+        maxYoungGenerationSizeMb: 16,
+        stackSizeMb: 4,
+      },
+    });
+    let settled = false;
+    const finish = (value?: PdfExtraction) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      void worker.terminate();
+      if (value) resolve(value);
+      else
+        reject(
+          new SecurityError(
+            422,
+            "pdf_rejected",
+            "This PDF could not be safely read. Use a smaller text-based PDF (maximum 200 pages and 200,000 characters).",
+          ),
+        );
+    };
+    const timer = setTimeout(() => finish(), 10000);
+    worker.on("message", (value) =>
+      finish(value?.ok ? { text: value.text, pages: value.pages } : undefined),
+    );
+    worker.on("error", () => finish());
+    worker.on("exit", () => {
+      if (!settled) finish();
+    });
   });
-
-  let doc;
-  try {
-    doc = await task.promise;
-  } catch (err) {
-    await task.destroy();
-    const message = err instanceof Error ? err.message : "";
-    console.error("[pdf-open]", err);
-    if (/password/i.test(message)) {
-      throw new Error(
-        "That PDF is password-protected. Remove the password and try again.",
-      );
-    }
-    throw new Error("That file couldn't be opened as a PDF.");
-  }
-
-  const pages: string[] = [];
-  for (let n = 1; n <= doc.numPages; n++) {
-    const page = await doc.getPage(n);
-    const content = await page.getTextContent();
-
-    // Rebuild lines. pdfjs flags the last fragment of each visual line, and
-    // clause numbering ("3.2 The bidder shall…") only survives if those breaks
-    // are kept — run together, the requirements are far harder to separate.
-    let text = "";
-    for (const item of content.items as TextItem[]) {
-      if (typeof item.str !== "string") continue;
-      text += item.str;
-      text += item.hasEOL ? "\n" : "";
-    }
-    page.cleanup();
-
-    const cleaned = text
-      .replace(/[ \t]+/g, " ")
-      .replace(/ *\n */g, "\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
-    if (cleaned) pages.push(cleaned);
-  }
-
-  const numPages = doc.numPages;
-  await task.destroy();
-
-  const text = pages.join("\n\n");
-
-  // A partial tender must never produce a matrix that looks complete.
-  if (text.length > MAX_CHARS) {
-    throw new Error(
-      `This PDF has ${text.length.toLocaleString()} extracted characters, above the ${MAX_CHARS.toLocaleString()} character analysis limit. Split it into sections; this tool cannot verify the whole tender in one run.`,
-    );
-  }
-
-  if (text.trim().length < 100) {
-    throw new Error(
-      "No readable text in that PDF — it looks like a scan or a set of images. Run it through OCR, or copy the text in by hand.",
-    );
-  }
-
-  return { text, pages: numPages };
 }

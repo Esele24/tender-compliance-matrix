@@ -4,6 +4,7 @@ import Link from "next/link";
    the framework's stock error screen. Colours are inherited from globals.css
    so this page follows the site's own theme, including dark mode. */
 
+// Next.js renders this fallback for unknown routes. Link returns to /, where access is checked again.
 export default function NotFound() {
   return (
     <main

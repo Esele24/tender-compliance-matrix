@@ -1,42 +1,29 @@
-import { NextResponse } from "next/server";
+/**
+ * POST /api/extract turns one uploaded PDF into text and a page count, without an AI call.
+ * The shared guard authenticates and limits processing; readForm bounds the entire upload
+ * before pdfToText validates and parses the file in a separate Node worker.
+ */
+import { protectedRoute } from "@/lib/security/guard";
+import { readForm } from "@/lib/security/body";
+import { SecurityError } from "@/lib/security/errors";
 import { pdfToText } from "@/lib/pdf-text";
-
-// A 200-page ITT takes a while to walk through.
+export const runtime = "nodejs";
 export const maxDuration = 60;
-
-const MAX_BYTES = 25 * 1024 * 1024;
-
-export async function POST(request: Request) {
-  let file: unknown;
-  try {
-    const form = await request.formData();
+export const POST = protectedRoute("extract_pdf", async (request) => {
+  const form = await readForm(request),
     file = form.get("file");
-  } catch {
-    return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
-  }
-
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "No file was attached." }, { status: 400 });
-  }
-  if (file.size > MAX_BYTES) {
-    return NextResponse.json(
-      { error: "That file is over 25 MB. Split it, or paste the relevant sections." },
-      { status: 400 },
+  if (
+    !(file instanceof File) ||
+    [...form.keys()].length !== 1 ||
+    file.name.length > 200
+  )
+    throw new SecurityError(
+      400,
+      "invalid_upload",
+      "Upload one PDF with a short filename.",
     );
-  }
-
-  const bytes = new Uint8Array(await file.arrayBuffer());
-  // Trust the magic number rather than the extension or the browser's guess.
-  if (String.fromCharCode(...bytes.subarray(0, 5)) !== "%PDF-") {
-    return NextResponse.json({ error: "That isn't a PDF." }, { status: 400 });
-  }
-
-  try {
-    const { text, pages } = await pdfToText(bytes);
-    return NextResponse.json({ text, pages, name: file.name });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Couldn't read that PDF.";
-    console.error("[extract]", message);
-    return NextResponse.json({ error: message }, { status: 422 });
-  }
-}
+  return {
+    ...(await pdfToText(new Uint8Array(await file.arrayBuffer()))),
+    name: file.name,
+  };
+});

@@ -1,83 +1,40 @@
-import { NextResponse } from "next/server";
+/**
+ * POST /api/profile-docs extracts text from one to eight company PDFs, builds a quoted
+ * evidence profile with AI, then signs it for the requesting member. Files are read
+ * sequentially; any extraction failure rejects this request rather than returning a partial set.
+ */
+import { protectedRoute } from "@/lib/security/guard";
+import { readForm } from "@/lib/security/body";
+import { SecurityError } from "@/lib/security/errors";
+import { signProfile } from "@/lib/security/evidence";
 import { pdfToText } from "@/lib/pdf-text";
-import { profileFromDocs, type SourceDoc } from "@/lib/profile-from-docs";
-
-// Several PDFs to parse, then a model call over all of them.
-export const maxDuration = 120;
-
-const MAX_BYTES = 25 * 1024 * 1024;
-const MAX_FILES = 8;
-
-export async function POST(request: Request) {
-  let files: File[];
-  let companyName: string | undefined;
-
-  try {
-    const form = await request.formData();
-    files = form.getAll("files").filter((f): f is File => f instanceof File);
-    const nameField = form.get("companyName");
-    companyName = typeof nameField === "string" && nameField.trim()
-      ? nameField.trim()
-      : undefined;
-  } catch {
-    return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
-  }
-
-  if (files.length === 0) {
-    return NextResponse.json({ error: "No documents were attached." }, { status: 400 });
-  }
-  if (files.length > MAX_FILES) {
-    return NextResponse.json(
-      { error: `That's ${files.length} files. Upload at most ${MAX_FILES} at a time.` },
-      { status: 400 },
-    );
-  }
-
-  const docs: SourceDoc[] = [];
-  // One unreadable file among six shouldn't lose the other five — collect the
-  // failures, carry on, and report them alongside the profile so the user knows
-  // exactly which document did not make it in.
-  const skipped: { name: string; reason: string }[] = [];
-
-  for (const file of files) {
-    if (file.size > MAX_BYTES) {
-      skipped.push({ name: file.name, reason: "over 25 MB" });
-      continue;
-    }
-    const bytes = new Uint8Array(await file.arrayBuffer());
-    // Trust the magic number rather than the extension or the browser's guess.
-    if (String.fromCharCode(...bytes.subarray(0, 5)) !== "%PDF-") {
-      skipped.push({ name: file.name, reason: "not a PDF" });
-      continue;
-    }
-    try {
-      const { text } = await pdfToText(bytes);
+import { profileFromDocs } from "@/lib/profile-from-docs";
+export const runtime = "nodejs";
+export const maxDuration = 180;
+export const POST = protectedRoute(
+  "build_document_profile",
+  async (request, member) => {
+    const form = await readForm(request),
+      files = form.getAll("files");
+    if (
+      !files.length ||
+      files.length > 8 ||
+      [...form.keys()].some((k) => k !== "files") ||
+      files.some((f) => !(f instanceof File) || f.name.length > 200)
+    )
+      throw new SecurityError(
+        400,
+        "invalid_upload",
+        "Upload between one and eight PDFs with short, distinct filenames.",
+      );
+    const docs = [];
+    for (const file of files as File[]) {
+      const { text } = await pdfToText(
+        new Uint8Array(await file.arrayBuffer()),
+      );
       docs.push({ name: file.name, text });
-    } catch (err) {
-      skipped.push({
-        name: file.name,
-        reason: err instanceof Error ? err.message : "couldn't be read",
-      });
     }
-  }
-
-  if (docs.length === 0) {
-    return NextResponse.json(
-      {
-        error:
-          "None of those files could be read. " +
-          skipped.map((s) => `${s.name}: ${s.reason}`).join("; "),
-      },
-      { status: 422 },
-    );
-  }
-
-  try {
-    const profile = await profileFromDocs(docs, companyName);
-    return NextResponse.json({ ...profile, skipped });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error.";
-    console.error("[profile-docs]", message);
-    return NextResponse.json({ error: message }, { status: 502 });
-  }
-}
+    return signProfile(await profileFromDocs(docs), member);
+  },
+  true,
+);

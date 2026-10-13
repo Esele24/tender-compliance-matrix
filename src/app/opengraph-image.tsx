@@ -1,9 +1,7 @@
 import { ImageResponse } from "next/og";
 
-/* The link preview card. Without this file a pasted link renders as bare text
-   on WhatsApp, LinkedIn and Upwork — which is where most of these links get
-   pasted. Generated at build time rather than shipped as a PNG so the text
-   stays editable and never drifts from the site's real name. */
+/* Next.js image metadata route: render editable JSX into a PNG link-preview card.
+   The explicit size, MIME type, and alt text describe the generated image. */
 
 export const alt = "Compliance Matrix — Tender response assistant";
 export const size = { width: 1200, height: 630 };

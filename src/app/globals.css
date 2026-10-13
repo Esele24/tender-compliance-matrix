@@ -9,6 +9,10 @@
    the moment the user is scanning for it.
    ========================================================================== */
 
+/* CSS controls appearance; React/TypeScript controls data and behavior.
+   :root defines reusable custom properties (variables) for the document.
+   var(--name) reads a property. @media applies rules when a condition matches,
+   including dark mode and reduced motion. Tailwind uses these values below. */
 :root {
   /* Ground + surfaces — cool grey with a faint green cast, never pure white */
   --steel-050: #f1f3f2;
@@ -72,6 +76,8 @@
   }
 }
 
+/* Map runtime CSS variables to Tailwind utilities such as bg-panel and text-gap.
+   Dark mode changes the variables above, so the same component classes adapt. */
 @theme inline {
   --color-ground: var(--ground);
   --color-panel: var(--panel);

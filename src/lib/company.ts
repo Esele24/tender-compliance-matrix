@@ -1,19 +1,8 @@
 /**
- * Company evidence profiles.
- *
- * Two of them, and the distinction matters commercially:
- *
- *  - SAMPLE_COMPANY is FICTIONAL. Use it for every demo shown to a prospect,
- *    because the prospect list for this product is other oil servicing firms.
- *  - PEGIS is built from https://pegisglobal.com, scraped 2026-08-03. Public
- *    marketing copy only. Use it ONLY when demoing to Pegis themselves. Showing
- *    one servicing firm's capability profile to a competitor ends the meeting,
- *    and Pegis's client list is exactly the sort of thing not to wave around.
- *
- * Every entry carries a `source` label because the matrix has to cite where its
- * evidence came from. In step 2 these are replaced by uploaded documents.
+ * Shared company data contract. Evidence pairs a source label with its text; a profile
+ * groups that evidence under a company name. Only the fictional sample is bundled.
+ * Custom profiles are constructed on the server and carry an optional integrity proof.
  */
-
 export type Evidence = {
   /** Human-readable label shown in the matrix as the citation. */
   source: string;
@@ -21,7 +10,12 @@ export type Evidence = {
   content: string;
 };
 
+// A company profile is a plain object, not a database record automatically.
+// id identifies it; name is its display label; caution explains evidence limits.
+// evidence is a list of {source, content} objects. proof? means proof is optional:
+// server-built custom profiles receive a signature, while the fictional sample does not.
 export type CompanyProfile = {
+  proof?: string;
   id: string;
   name: string;
   /** Shown under the picker so nobody demos the wrong profile by accident. */
@@ -155,68 +149,6 @@ export const SAMPLE_COMPANY: CompanyProfile = {
   ],
 };
 
-/**
- * Built entirely from the public website on 2026-08-03. Nothing here was
- * inferred, rounded or filled in — where the site is silent, there is no entry,
- * and the matrix will correctly report a GAP. That is the honest result and it
- * is the more useful one: the gaps are the sales conversation.
- */
-export const PEGIS: CompanyProfile = {
-  id: "pegis",
-  name: "PEGIS Global Services Limited",
-  caution:
-    "Built from pegisglobal.com, public marketing copy only. Show this to Pegis — never to another servicing firm.",
-  evidence: [
-    {
-      source: "Website — corporate registration",
-      content:
-        "PEGIS Global Services Limited, incorporated with the Corporate Affairs Commission, RC 1479740. Established 2018. Described as a 100% indigenous Nigerian company.",
-    },
-    {
-      source: "Website — services offered",
-      content:
-        "Wellhead maintenance; well intervention services; mechanical construction and fabrication; onshore and offshore construction and installation; corrosion control and facility inspection; instrumentation and control; consultancy and training; procurement services; marine services; renewables; civil work.",
-    },
-    {
-      source: "Website — regulatory registrations listed",
-      content:
-        "Lists association with NUPRC, NMDPRA, NCDMB, NIMASA, NIPEX, COREN, Bureau of Public Procurement, Federal Ministry of Environment, ISPON, PETAN, and Dun & Bradstreet.",
-    },
-    {
-      source: "Website — quality and management standards",
-      content:
-        "States ISO 9001 (quality management) and ISO 14001 (environmental management).",
-    },
-    {
-      source: "Website — HSE statement",
-      content:
-        "States 0 LTI. Quoted: \"Rigorous Health, Safety & Environment protocols embedded in every operation. Zero LTI is not a target; it is our standard.\"",
-    },
-    {
-      source: "Website — clients named",
-      content:
-        "Names Chevron, NNPC, Seplat Energy, TotalEnergies, Heritage, GEIL, AMNI and Shell as clients.",
-    },
-    {
-      source: "Website — experience",
-      content:
-        "Describes over 8 years of operation and 8 offices. States managers with 25+ years of oil and gas industry experience across the Niger Delta.",
-    },
-    {
-      source: "Website — facilities",
-      content:
-        "Principal address No. 1 Fubara Lane, Trans-Amadi, Port Harcourt, Nigeria.",
-    },
-    {
-      source: "Website — equipment (non-specific)",
-      content:
-        "States \"state-of-the-art equipment maintained to the highest international standards\". No equipment inventory is published.",
-    },
-  ],
-};
-
-export const PROFILES: CompanyProfile[] = [SAMPLE_COMPANY, PEGIS];
-
-export function getProfile(id: string): CompanyProfile {
-  return PROFILES.find((p) => p.id === id) ?? SAMPLE_COMPANY;
-}
+/** Picker entries are bundled demo profiles; custom evidence is handled separately. */
+export const PROFILES:CompanyProfile[]=[SAMPLE_COMPANY];
+export function getProfile(id:string):CompanyProfile{return PROFILES.find(p=>p.id===id)??SAMPLE_COMPANY;}

@@ -3,6 +3,7 @@ import { ImageResponse } from "next/og";
 /* Replaces the default Next.js favicon. A browser tab showing the framework's
    logo tells a visitor which template was used, not whose site this is. */
 
+// Next.js uses these metadata exports and the ImageResponse to serve the browser icon as a PNG.
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 

@@ -8,10 +8,8 @@
  * to land on a worked example instead of an invitation to work.
  *
  * WHY IT IS A FILE AND NOT AN API CALL ON LOAD: every visitor would otherwise
- * spend a Gemini call before touching anything, and the free tier on this key is
- * roughly twenty requests. A demo that burns its own quota on people who are
- * only looking is a demo that is broken by the time the buyer opens it. This
- * renders instantly, offline, and costs nothing.
+ * spend a Gemini call before touching anything. Bundling the report avoids
+ * provider usage on page load and renders instantly without an AI request.
  *
  * HOW IT WAS PRODUCED: SAMPLE_TENDER was posted to the real /api/analyse route
  * against the `sample` profile — the same code path a live run takes — and the
